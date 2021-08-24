@@ -20,9 +20,9 @@ class RecipesAdapter(private val onRecipeItemClickListener: OnRecipeItemClickLis
             with(binding) {
                 recipeTitle.text = recipe.title
 
-                Glide.with(binding.recipePhoto.context)
+                Glide.with(recipePhoto.context)
                     .load(recipe.image)
-                    .into(binding.recipePhoto)
+                    .into(recipePhoto)
 
                 itemView.setOnClickListener {
                     onRecipeItemClickListener.onRecipeItemClick(recipe.id)

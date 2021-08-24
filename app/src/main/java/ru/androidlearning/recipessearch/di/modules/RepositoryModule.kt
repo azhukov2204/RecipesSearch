@@ -2,21 +2,22 @@ package ru.androidlearning.recipessearch.di.modules
 
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import ru.androidlearning.recipessearch.data.repository.RecipesRepository
 import ru.androidlearning.recipessearch.data.repository.RecipesRepositoryImpl
-import ru.androidlearning.recipessearch.data.repository.datasources.RecipesDataSource
-import ru.androidlearning.recipessearch.data.repository.datasources.RecipesDataSourceImpl
-import javax.inject.Singleton
+import ru.androidlearning.recipessearch.data.repository.datasources.cache.RecipesDataSourceCache
+import ru.androidlearning.recipessearch.data.repository.datasources.cache.RecipesDataSourceCacheImpl
+import ru.androidlearning.recipessearch.data.repository.datasources.cloud.RecipesDataSourceCloud
+import ru.androidlearning.recipessearch.data.repository.datasources.cloud.RecipesDataSourceCloudImpl
 
 @Module
 interface RepositoryModule {
 
-    @Singleton
     @Binds
     fun bindRecipesRepository(recipesRepository: RecipesRepositoryImpl): RecipesRepository
 
-    @Singleton
     @Binds
-    fun bindRecipesDataSource(recipesDataSource: RecipesDataSourceImpl): RecipesDataSource
+    fun bindRecipesDataSourceCloud(recipesDataSourceCloud: RecipesDataSourceCloudImpl): RecipesDataSourceCloud
+
+    @Binds
+    fun bindRecipesDataSourceCache(recipesDataSourceCache: RecipesDataSourceCacheImpl): RecipesDataSourceCache
 }

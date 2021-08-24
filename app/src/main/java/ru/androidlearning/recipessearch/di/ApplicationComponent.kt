@@ -17,8 +17,9 @@ import javax.inject.Singleton
         AndroidInjectionModule::class,
         FragmentsModule::class,
         WorkSchedulersModule::class,
-        RecipesApiModule::class,
-        RepositoryModule::class
+        ApiModule::class,
+        RepositoryModule::class,
+        StorageModule::class
     ]
 )
 

@@ -12,7 +12,7 @@ data class RecipePresentationData(
     val servings: Int?,
     val summary: String?,
     val instructions: String?,
-    val extendedIngredients: List<ExtendedIngredientsPresentationData>
+    val extendedIngredients: List<ExtendedIngredientsPresentationData>?
 ) {
     object Mapper {
         fun map(recipeDTO: RecipeDTO): RecipePresentationData =
@@ -26,7 +26,7 @@ data class RecipePresentationData(
                 recipeDTO.servings,
                 recipeDTO.summary,
                 recipeDTO.instructions,
-                recipeDTO.extendedIngredients.map(ExtendedIngredientsPresentationData.Mapper::map)
+                recipeDTO.extendedIngredients?.map(ExtendedIngredientsPresentationData.Mapper::map)
             )
     }
 }

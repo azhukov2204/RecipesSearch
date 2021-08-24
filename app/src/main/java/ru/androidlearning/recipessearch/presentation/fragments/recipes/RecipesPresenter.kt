@@ -1,6 +1,8 @@
 package ru.androidlearning.recipessearch.presentation.fragments.recipes
 
 import com.github.terrakok.cicerone.Router
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
 import ru.androidlearning.recipessearch.data.repository.RecipesRepository
 import ru.androidlearning.recipessearch.navigation.RecipeFragmentScreen
@@ -13,18 +15,32 @@ class RecipesPresenter @Inject constructor(
     private val schedulers: WorkSchedulers,
     private val router: Router
 ) : MvpPresenter<RecipesView>() {
+
+    private val disposables = CompositeDisposable()
+
     override fun onFirstViewAttach() {
-        recipesRepository.getRandomRecipes()
-            .map(RecipesPresentationData.Mapper::map)
-            .observeOn(schedulers.threadMain())
-            .subscribeOn(schedulers.threadIO())
-            .subscribe(
-                viewState::showRecipes,
-                { it.printStackTrace() } //todo доделать
-            )
+        disposables +=
+            recipesRepository.getRandomRecipes()
+                .map(RecipesPresentationData.Mapper::map)
+                .observeOn(schedulers.threadMain())
+                .subscribeOn(schedulers.threadIO())
+                .subscribe(
+                    viewState::showRecipes,
+                    this::doOnError
+                )
     }
 
     fun displayRecipe(recipeId: Long) {
         router.navigateTo(RecipeFragmentScreen(recipeId))
+    }
+
+    private fun doOnError(e: Throwable) {
+        e.printStackTrace()
+        e.message?.let { viewState.showError(it) }
+    }
+
+    override fun onDestroy() {
+        disposables.dispose()
+        super.onDestroy()
     }
 }

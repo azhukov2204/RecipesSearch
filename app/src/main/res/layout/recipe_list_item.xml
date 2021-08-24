@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/recipe_list_item"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="@dimen/defaultMarginValue"
     android:layout_marginTop="@dimen/defaultMarginValue"
@@ -14,31 +14,31 @@
     android:foreground="?android:selectableItemBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/recipe_photo"
-            android:layout_width="83dp"
-            android:layout_height="108dp"
-            android:layout_marginStart="@dimen/defaultMarginValue"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/recipe_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/defaultMarginValue"
             android:layout_marginBottom="@dimen/defaultMarginValue"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="3"
             android:paddingStart="@dimen/defaultPaddingValue"
             android:paddingEnd="@dimen/defaultPaddingValue"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/recipe_photo"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recipe_photo"
             tools:text="movie name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

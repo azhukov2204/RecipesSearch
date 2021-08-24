@@ -1,5 +1,6 @@
-package ru.androidlearning.recipessearch.data.repository.datasources.api
+package ru.androidlearning.recipessearch.data.repository.datasources.cloud.api
 
+import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,5 +19,5 @@ interface RecipesApi {
     fun getRecipeById(
         @Path("recipeId") recipeId: Long,
         @Query("apiKey") apiKey: String
-    ): Single<RecipeDTO>
+    ): Maybe<RecipeDTO>
 }

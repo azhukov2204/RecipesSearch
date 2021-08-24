@@ -1,18 +1,26 @@
 package ru.androidlearning.recipessearch.data
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(
+    tableName = "recipes"
+)
 data class RecipeDTO(
-    @SerializedName("id") val id: Long,
-    @SerializedName("title") val title: String,
-    @SerializedName("weightWatcherSmartPoints") val weightWatcherSmartPoints: Int,
-    @SerializedName("extendedIngredients") val extendedIngredients: List<ExtendedIngredientsDTO>,
-    @SerializedName("readyInMinutes") val readyInMinutes: Int,
-    @SerializedName("servings") val servings: Int,
-    @SerializedName("image") val image: String,
-    @SerializedName("imageType") val imageType: String,
-    @SerializedName("summary") val summary: String,
-    @SerializedName("instructions") val instructions: String,
+    @PrimaryKey
+    @ColumnInfo(name = "id") @SerializedName("id") val id: Long,
+    @ColumnInfo(name = "title") @SerializedName("title") val title: String,
+    @ColumnInfo(name = "weight_watcher_smart_points") @SerializedName("weightWatcherSmartPoints") val weightWatcherSmartPoints: Int?,
+    @ColumnInfo(name = "extended_ingredients") @SerializedName("extendedIngredients") val extendedIngredients: List<ExtendedIngredientsDTO>?,
+    @ColumnInfo(name = "ready_in_minutes") @SerializedName("readyInMinutes") val readyInMinutes: Int?,
+    @ColumnInfo(name = "servings") @SerializedName("servings") val servings: Int?,
+    @ColumnInfo(name = "image") @SerializedName("image") val image: String?,
+    @ColumnInfo(name = "image_type") @SerializedName("imageType") val imageType: String?,
+    @ColumnInfo(name = "summary") @SerializedName("summary") val summary: String?,
+    @ColumnInfo(name = "instructions") @SerializedName("instructions") val instructions: String?,
+    @ColumnInfo(name = "saved_time") var savedTime: Long?
 )
 
 data class ExtendedIngredientsDTO(

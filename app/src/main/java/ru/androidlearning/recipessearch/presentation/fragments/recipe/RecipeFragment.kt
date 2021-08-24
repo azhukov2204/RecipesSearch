@@ -1,7 +1,10 @@
 package ru.androidlearning.recipessearch.presentation.fragments.recipe
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -37,6 +40,20 @@ class RecipeFragment : DaggerMvpFragment(R.layout.fragment_recipe), RecipeView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ingredientsRecyclerView.adapter = adapter
+        (context as AppCompatActivity).apply {
+            setSupportActionBar(binding.toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setHomeButtonEnabled(true)
+            supportActionBar?.setDisplayShowTitleEnabled(false)
+        }
+        setHasOptionsMenu(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            recipePresenter.closeFragment()
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun showRecipe(recipePresentationData: RecipePresentationData) {
@@ -47,6 +64,11 @@ class RecipeFragment : DaggerMvpFragment(R.layout.fragment_recipe), RecipeView {
             recipeTitle.text = recipePresentationData.title
             adapter.submitList(recipePresentationData.extendedIngredients)
             instruction.text = recipePresentationData.instructions?.let { HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY) }
+            toolbarLayout.title = recipePresentationData.title
         }
+    }
+
+    override fun showError(message: String) {
+        Toast.makeText(context, getString(R.string.error_occurred_text) + message, Toast.LENGTH_SHORT).show()
     }
 }

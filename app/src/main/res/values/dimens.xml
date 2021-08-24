@@ -2,4 +2,5 @@
 <resources>
     <dimen name="defaultMarginValue">5dp</dimen>
     <dimen name="defaultPaddingValue">4dp</dimen>
+    <dimen name="recipe_title_text_size">20sp</dimen>
 </resources>

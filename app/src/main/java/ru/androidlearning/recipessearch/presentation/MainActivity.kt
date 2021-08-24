@@ -6,7 +6,6 @@ import com.github.terrakok.cicerone.Router
 import com.github.terrakok.cicerone.androidx.AppNavigator
 import ru.androidlearning.recipessearch.R
 import ru.androidlearning.recipessearch.navigation.RecipesFragmentScreen
-
 import ru.androidlearning.recipessearch.presentation.abstract_templates.DaggerMvpActivity
 import javax.inject.Inject
 

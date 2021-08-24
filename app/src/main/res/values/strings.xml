@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">RecipesSearch</string>
+    <string name="error_occurred_text">\"An error occurred: \"</string>
+    <string name="recipe_title">Recipe</string>
+    <string name="recipes_title">Recipes</string>
+    <string name="ingredients_text">Ingredients:</string>
+    <string name="instruction_title_text">Instruction:</string>
 </resources>

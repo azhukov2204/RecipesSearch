@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
+import dagger.Reusable
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,13 +12,13 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.androidlearning.recipessearch.BuildConfig
-import ru.androidlearning.recipessearch.data.repository.datasources.api.RecipesApi
+import ru.androidlearning.recipessearch.data.repository.datasources.cloud.api.RecipesApi
 import java.io.IOException
 import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
-class RecipesApiModule {
+class ApiModule {
 
     @Named("spoonacular_base_url")
     @Provides
@@ -32,7 +33,7 @@ class RecipesApiModule {
     @Provides
     fun provideRandomRecipesNumber(): Int = 10
 
-    @Singleton
+    @Reusable
     @Provides
     fun provideRecipesApi(@Named("spoonacular_base_url") baseUrl: String): RecipesApi =
         Retrofit.Builder()
