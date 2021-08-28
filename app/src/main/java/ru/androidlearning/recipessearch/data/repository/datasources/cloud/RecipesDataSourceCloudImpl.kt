@@ -4,6 +4,7 @@ import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 import ru.androidlearning.recipessearch.data.RecipeDTO
 import ru.androidlearning.recipessearch.data.RecipesDTO
+import ru.androidlearning.recipessearch.data.SearchResultsDTO
 import ru.androidlearning.recipessearch.data.repository.datasources.cloud.api.RecipesApi
 import javax.inject.Inject
 import javax.inject.Named
@@ -19,4 +20,8 @@ class RecipesDataSourceCloudImpl @Inject constructor(
 
     override fun getRecipeById(recipeId: Long): Maybe<RecipeDTO> =
         recipesApi.getRecipeById(recipeId, apiKey)
+
+    override fun searchRecipesByName(name: String): Single<SearchResultsDTO> =
+        recipesApi.searchRecipesByName(name, apiKey)
+
 }

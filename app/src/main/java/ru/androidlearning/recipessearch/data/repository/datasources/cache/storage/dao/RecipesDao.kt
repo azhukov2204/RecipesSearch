@@ -27,9 +27,15 @@ abstract class RecipesDao {
             retainRecipes(recipes)
         }
 
+    @Insert(onConflict = REPLACE)
+    abstract fun retain(recipe: RecipeDTO): Completable
+
     @Query("SELECT * FROM recipes WHERE saved_time = (SELECT max(saved_time) FROM recipes)")
     abstract fun getLastRandomRecipes(): Single<List<RecipeDTO>>
 
     @Query("SELECT * FROM recipes WHERE id = :recipeId")
     abstract fun getRecipeById(recipeId: Long): Maybe<RecipeDTO>
+
+    @Query("SELECT * FROM recipes WHERE LOWER(title) LIKE '%' || LOWER(:name) || '%'")
+    abstract fun getRecipesByName(name: String): Single<List<RecipeDTO>>
 }

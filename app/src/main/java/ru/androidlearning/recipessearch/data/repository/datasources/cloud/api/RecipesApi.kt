@@ -7,6 +7,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import ru.androidlearning.recipessearch.data.RecipeDTO
 import ru.androidlearning.recipessearch.data.RecipesDTO
+import ru.androidlearning.recipessearch.data.SearchResultsDTO
 
 interface RecipesApi {
     @GET("random")
@@ -20,4 +21,10 @@ interface RecipesApi {
         @Path("recipeId") recipeId: Long,
         @Query("apiKey") apiKey: String
     ): Maybe<RecipeDTO>
+
+    @GET("complexSearch")
+    fun searchRecipesByName(
+        @Query("query") query: String,
+        @Query("apiKey") apiKey: String
+    ): Single<SearchResultsDTO>
 }
