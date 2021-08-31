@@ -26,9 +26,17 @@ class RecipesPresenter @Inject constructor(
                 .observeOn(schedulers.threadMain())
                 .subscribeOn(schedulers.threadIO())
                 .subscribe(
-                    viewState::showRecipes,
+                    this::doOnSuccess,
                     this::doOnError
                 )
+    }
+
+    private fun doOnSuccess(recipesPresentationData: RecipesPresentationData) {
+        if (recipesPresentationData.recipes.isEmpty()) {
+            viewState.showNoData()
+        } else {
+            viewState.showRecipes(recipesPresentationData)
+        }
     }
 
     fun displayRecipe(recipeId: Long) {

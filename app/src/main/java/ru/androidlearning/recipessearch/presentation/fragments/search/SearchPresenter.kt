@@ -32,9 +32,17 @@ class SearchPresenter @Inject constructor(
                 .observeOn(schedulers.threadMain())
                 .subscribeOn(schedulers.threadIO())
                 .subscribe(
-                    viewState::showSearchResults,
+                    this::doOnSuccess,
                     this::doOnError
                 )
+    }
+
+    private fun doOnSuccess(searchResults: List<SearchResultPresentationData>) {
+        if (searchResults.isEmpty()) {
+            viewState.showNoData()
+        } else {
+            viewState.showSearchResults(searchResults)
+        }
     }
 
     private fun doOnError(e: Throwable) {

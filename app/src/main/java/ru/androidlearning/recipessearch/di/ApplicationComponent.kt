@@ -19,7 +19,8 @@ import javax.inject.Singleton
         WorkSchedulersModule::class,
         ApiModule::class,
         RepositoryModule::class,
-        StorageModule::class
+        StorageModule::class,
+        NetworkStateObservableModule::class
     ]
 )
 

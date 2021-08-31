@@ -10,6 +10,9 @@ interface SearchView : MvpView {
     @SingleState
     fun showSearchResults(searchResults: List<SearchResultPresentationData>)
 
+    @SingleState
+    fun showNoData()
+
     @OneExecution
     fun showError(message: String)
 }

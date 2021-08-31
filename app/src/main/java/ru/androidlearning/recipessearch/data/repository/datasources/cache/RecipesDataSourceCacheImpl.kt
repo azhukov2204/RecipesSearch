@@ -7,7 +7,6 @@ import ru.androidlearning.recipessearch.data.RecipeDTO
 import ru.androidlearning.recipessearch.data.RecipesDTO
 import ru.androidlearning.recipessearch.data.SearchResultsDTO
 import ru.androidlearning.recipessearch.data.repository.datasources.cache.storage.RecipesStorage
-import java.lang.RuntimeException
 import javax.inject.Inject
 
 class RecipesDataSourceCacheImpl @Inject constructor(

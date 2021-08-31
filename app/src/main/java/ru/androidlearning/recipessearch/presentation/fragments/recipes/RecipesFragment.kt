@@ -55,14 +55,24 @@ class RecipesFragment() : DaggerMvpFragment(R.layout.fragment_recipes), RecipesV
     }
 
     override fun showRecipes(recipesPresentationData: RecipesPresentationData) {
+        binding.recipeRecyclerView.visibility = View.VISIBLE
+        binding.noDataLabel.visibility = View.GONE
+        binding.loadingSheet.root.visibility = View.GONE
         recipesAdapter.submitList(recipesPresentationData.recipes)
+    }
+
+    override fun showNoData() {
+        binding.recipeRecyclerView.visibility = View.GONE
+        binding.noDataLabel.visibility = View.VISIBLE
+        binding.loadingSheet.root.visibility = View.GONE
+    }
+
+    override fun showError(message: String) {
+        binding.loadingSheet.root.visibility = View.GONE
+        Toast.makeText(context, getString(R.string.error_occurred_text) + message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onRecipeItemClick(recipeId: Long) {
         recipesPresenter.displayRecipe(recipeId)
-    }
-
-    override fun showError(message: String) {
-        Toast.makeText(context, getString(R.string.error_occurred_text) + message, Toast.LENGTH_SHORT).show()
     }
 }

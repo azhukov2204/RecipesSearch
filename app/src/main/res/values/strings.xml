@@ -8,4 +8,6 @@
     <string name="search_for_recipes_hint">Search for recipes</string>
     <string name="search_for_recipes_help">Enter the name of the dish</string>
     <string name="search_menu_item">Search</string>
+    <string name="no_internet_text">No Internet</string>
+    <string name="no_data">No data</string>
 </resources>

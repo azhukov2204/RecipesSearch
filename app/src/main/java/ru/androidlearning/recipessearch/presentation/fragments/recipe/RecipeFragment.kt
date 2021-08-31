@@ -28,7 +28,7 @@ class RecipeFragment : DaggerMvpFragment(R.layout.fragment_recipe), RecipeView {
 
     @Inject
     lateinit var recipePresenterFactory: RecipePresenterFactory
-    val recipePresenter by moxyPresenter { recipePresenterFactory.create(recipeId) }
+    private val recipePresenter by moxyPresenter { recipePresenterFactory.create(recipeId) }
 
     companion object {
         fun newInstance(recipeId: Long) =
@@ -65,10 +65,12 @@ class RecipeFragment : DaggerMvpFragment(R.layout.fragment_recipe), RecipeView {
             adapter.submitList(recipePresentationData.extendedIngredients)
             instruction.text = recipePresentationData.instructions?.let { HtmlCompat.fromHtml(it, HtmlCompat.FROM_HTML_MODE_LEGACY) }
             toolbarLayout.title = recipePresentationData.title
+            loadingSheet.root.visibility = View.GONE
         }
     }
 
     override fun showError(message: String) {
+        binding.loadingSheet.root.visibility = View.GONE
         Toast.makeText(context, getString(R.string.error_occurred_text) + message, Toast.LENGTH_SHORT).show()
     }
 }
