@@ -1,4 +1,4 @@
-package ru.androidlearning.recipessearch.presentation.fragments.recipes
+package ru.androidlearning.recipessearch.presentation.fragments.search
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -6,33 +6,35 @@ import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
 import ru.androidlearning.recipessearch.data.repository.RecipesRepository
 import ru.androidlearning.recipessearch.navigation.RecipeFragmentScreen
-import ru.androidlearning.recipessearch.navigation.SearchFragmentScreen
-import ru.androidlearning.recipessearch.presentation.RecipesPresentationData
+import ru.androidlearning.recipessearch.presentation.SearchResultPresentationData
 import ru.androidlearning.recipessearch.schedullers.WorkSchedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class RecipesPresenter @Inject constructor(
+class SearchPresenter @Inject constructor(
+    private val router: Router,
     private val recipesRepository: RecipesRepository,
     private val schedulers: WorkSchedulers,
-    private val router: Router
-) : MvpPresenter<RecipesView>() {
+) : MvpPresenter<SearchView>() {
 
     private val disposables = CompositeDisposable()
 
     override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+
         disposables +=
-            recipesRepository.getRandomRecipes()
-                .map(RecipesPresentationData.Mapper::map)
+            RxSearchObservable.getPublishSubject()
+                .debounce(300, TimeUnit.MILLISECONDS)
+                .filter { it.isNotBlank() }
+                .distinctUntilChanged()
+                .switchMapSingle { searchString -> recipesRepository.searchRecipesByName(searchString) }
+                .map { searchResultsDTO -> searchResultsDTO.results.map(SearchResultPresentationData.Mapper::map) }
                 .observeOn(schedulers.threadMain())
                 .subscribeOn(schedulers.threadIO())
                 .subscribe(
-                    viewState::showRecipes,
+                    viewState::showSearchResults,
                     this::doOnError
                 )
-    }
-
-    fun displayRecipe(recipeId: Long) {
-        router.navigateTo(RecipeFragmentScreen(recipeId))
     }
 
     private fun doOnError(e: Throwable) {
@@ -40,12 +42,16 @@ class RecipesPresenter @Inject constructor(
         e.message?.let { viewState.showError(it) }
     }
 
+    fun comeBack() {
+        router.exit()
+    }
+
     override fun onDestroy() {
         disposables.dispose()
         super.onDestroy()
     }
 
-    fun launchSearch() {
-        router.navigateTo(SearchFragmentScreen())
+    fun displayRecipe(recipeId: Long) {
+        router.navigateTo(RecipeFragmentScreen(recipeId))
     }
 }

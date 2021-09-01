@@ -5,7 +5,9 @@ import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 import ru.androidlearning.recipessearch.data.RecipeDTO
 import ru.androidlearning.recipessearch.data.RecipesDTO
+import ru.androidlearning.recipessearch.data.SearchResultsDTO
 import ru.androidlearning.recipessearch.data.repository.datasources.cache.storage.RecipesStorage
+import java.lang.RuntimeException
 import javax.inject.Inject
 
 class RecipesDataSourceCacheImpl @Inject constructor(
@@ -17,6 +19,11 @@ class RecipesDataSourceCacheImpl @Inject constructor(
             .recipesDao()
             .retain(recipes.recipes)
 
+    override fun retain(recipe: RecipeDTO): Completable =
+        recipesStorage
+            .recipesDao()
+            .retain(recipe)
+
     override fun getRandomRecipes(): Single<RecipesDTO> =
         recipesStorage
             .recipesDao()
@@ -27,4 +34,10 @@ class RecipesDataSourceCacheImpl @Inject constructor(
         recipesStorage
             .recipesDao()
             .getRecipeById(recipeId)
+
+    override fun searchRecipesByName(name: String): Single<SearchResultsDTO> =
+        recipesStorage
+            .recipesDao()
+            .getRecipesByName(name)
+            .map(SearchResultsDTO.Mapper::map)
 }

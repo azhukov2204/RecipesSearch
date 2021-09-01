@@ -5,6 +5,7 @@ import dagger.android.ContributesAndroidInjector
 import ru.androidlearning.recipessearch.presentation.MainActivity
 import ru.androidlearning.recipessearch.presentation.fragments.recipe.RecipeFragment
 import ru.androidlearning.recipessearch.presentation.fragments.recipes.RecipesFragment
+import ru.androidlearning.recipessearch.presentation.fragments.search.SearchFragment
 
 @Module
 interface FragmentsModule {
@@ -16,4 +17,7 @@ interface FragmentsModule {
 
     @ContributesAndroidInjector
     fun bindRecipeFragment(): RecipeFragment
+
+    @ContributesAndroidInjector
+    fun bindSearchFragment(): SearchFragment
 }

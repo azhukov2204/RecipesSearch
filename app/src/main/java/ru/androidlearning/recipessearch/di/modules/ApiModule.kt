@@ -24,7 +24,6 @@ class ApiModule {
     @Provides
     fun provideSpoonacularBaseUrl(): String = "https://api.spoonacular.com/recipes/"
 
-
     @Named("spoonacular_api_key")
     @Provides
     fun provideSpoonacularApiKey(): String = BuildConfig.SPOONACULAR_API_KEY
