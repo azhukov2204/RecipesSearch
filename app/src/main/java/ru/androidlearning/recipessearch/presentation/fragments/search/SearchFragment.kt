@@ -37,12 +37,24 @@ class SearchFragment : DaggerMvpFragment(R.layout.fragment_search), SearchView, 
         with(binding) {
             recipesSearchRecyclerView.adapter = searchResultsAdapter
             recipesSearchInputLayout.setStartIconOnClickListener { searchPresenter.comeBack() }
-            RxSearchObservable.observeEditTextChanges(recipesSearchTextInput)
+            RxSearchObservable.beginObserveEditTextChanges(recipesSearchTextInput)
         }
     }
 
+    override fun onDestroyView() {
+        RxSearchObservable.endObserveEditTextChanges(binding.recipesSearchTextInput)
+        super.onDestroyView()
+    }
+
     override fun showSearchResults(searchResults: List<SearchResultPresentationData>) {
+        binding.recipesSearchRecyclerView.visibility = View.VISIBLE
+        binding.noDataLabel.visibility = View.GONE
         searchResultsAdapter.submitList(searchResults)
+    }
+
+    override fun showNoData() {
+        binding.recipesSearchRecyclerView.visibility = View.GONE
+        binding.noDataLabel.visibility = View.VISIBLE
     }
 
     override fun showError(message: String) {

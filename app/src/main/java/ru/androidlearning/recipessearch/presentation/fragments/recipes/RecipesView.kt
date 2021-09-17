@@ -10,6 +10,9 @@ interface RecipesView: MvpView {
     @SingleState
     fun showRecipes(recipesPresentationData: RecipesPresentationData)
 
+    @SingleState
+    fun showNoData()
+
     @OneExecution
     fun showError(message: String)
 }
