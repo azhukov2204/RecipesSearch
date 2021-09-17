@@ -33,7 +33,6 @@ class IngredientsAdapter : ListAdapter<ExtendedIngredientsPresentationData, Ingr
                 .inflate(R.layout.ingredient_list_item, parent, false)
         )
 
-
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
         holder.bind(getItem(position))
     }

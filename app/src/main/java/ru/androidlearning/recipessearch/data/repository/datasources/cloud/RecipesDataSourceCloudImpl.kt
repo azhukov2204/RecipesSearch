@@ -4,19 +4,22 @@ import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 import ru.androidlearning.recipessearch.data.RecipeDTO
 import ru.androidlearning.recipessearch.data.RecipesDTO
+import ru.androidlearning.recipessearch.data.SearchResultsDTO
 import ru.androidlearning.recipessearch.data.repository.datasources.cloud.api.RecipesApi
 import javax.inject.Inject
-import javax.inject.Named
+
+const val RANDOM_RECIPES_NUMBER = 10
 
 class RecipesDataSourceCloudImpl @Inject constructor(
-    private val recipesApi: RecipesApi,
-    @Named("spoonacular_api_key") private val apiKey: String,
-    @Named("random_recipes_number") private val randomRecipesNumber: Int
+    private val recipesApi: RecipesApi
 ) : RecipesDataSourceCloud {
 
     override fun getRandomRecipes(): Single<RecipesDTO> =
-        recipesApi.getRandomRecipes(apiKey, randomRecipesNumber)
+        recipesApi.getRandomRecipes(RANDOM_RECIPES_NUMBER)
 
     override fun getRecipeById(recipeId: Long): Maybe<RecipeDTO> =
-        recipesApi.getRecipeById(recipeId, apiKey)
+        recipesApi.getRecipeById(recipeId)
+
+    override fun searchRecipesByName(name: String): Single<SearchResultsDTO> =
+        recipesApi.searchRecipesByName(name)
 }

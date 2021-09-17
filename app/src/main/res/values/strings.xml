@@ -5,4 +5,9 @@
     <string name="recipes_title">Recipes</string>
     <string name="ingredients_text">Ingredients:</string>
     <string name="instruction_title_text">Instruction:</string>
+    <string name="search_for_recipes_hint">Search for recipes</string>
+    <string name="search_for_recipes_help">Enter the name of the dish</string>
+    <string name="search_menu_item">Search</string>
+    <string name="no_internet_text">No Internet</string>
+    <string name="no_data">No data</string>
 </resources>

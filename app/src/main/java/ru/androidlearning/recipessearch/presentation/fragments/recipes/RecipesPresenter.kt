@@ -6,6 +6,7 @@ import io.reactivex.rxjava3.kotlin.plusAssign
 import moxy.MvpPresenter
 import ru.androidlearning.recipessearch.data.repository.RecipesRepository
 import ru.androidlearning.recipessearch.navigation.RecipeFragmentScreen
+import ru.androidlearning.recipessearch.navigation.SearchFragmentScreen
 import ru.androidlearning.recipessearch.presentation.RecipesPresentationData
 import ru.androidlearning.recipessearch.schedullers.WorkSchedulers
 import javax.inject.Inject
@@ -25,9 +26,17 @@ class RecipesPresenter @Inject constructor(
                 .observeOn(schedulers.threadMain())
                 .subscribeOn(schedulers.threadIO())
                 .subscribe(
-                    viewState::showRecipes,
+                    this::doOnSuccess,
                     this::doOnError
                 )
+    }
+
+    private fun doOnSuccess(recipesPresentationData: RecipesPresentationData) {
+        if (recipesPresentationData.recipes.isEmpty()) {
+            viewState.showNoData()
+        } else {
+            viewState.showRecipes(recipesPresentationData)
+        }
     }
 
     fun displayRecipe(recipeId: Long) {
@@ -42,5 +51,9 @@ class RecipesPresenter @Inject constructor(
     override fun onDestroy() {
         disposables.dispose()
         super.onDestroy()
+    }
+
+    fun launchSearch() {
+        router.navigateTo(SearchFragmentScreen())
     }
 }
