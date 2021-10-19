@@ -3,7 +3,6 @@ package ru.androidlearning.recipessearch.data.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
-import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import io.reactivex.rxjava3.android.MainThreadDisposable
 import io.reactivex.rxjava3.core.Observable
@@ -23,6 +22,8 @@ class NetworkStateObservable @Inject constructor(private val context: Context) :
         private val observer: Observer<in NetworkState>
     ) : ConnectivityManager.NetworkCallback(), Disposable {
 
+        private val availableNetworks = mutableSetOf<Network>()
+
         private val disposable = object : MainThreadDisposable() {
             override fun onDispose() {
                 connectivityManager.unregisterNetworkCallback(this@NetworkStateListener)
@@ -36,11 +37,6 @@ class NetworkStateObservable @Inject constructor(private val context: Context) :
         init {
             connectivityManager.registerNetworkCallback(
                 NetworkRequest.Builder()
-                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                    .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
-                    .addTransportType(NetworkCapabilities.TRANSPORT_WIFI)
-                    .addTransportType(NetworkCapabilities.TRANSPORT_ETHERNET)
-                    .addTransportType(NetworkCapabilities.TRANSPORT_VPN)
                     .build(),
                 this
             )
@@ -59,15 +55,18 @@ class NetworkStateObservable @Inject constructor(private val context: Context) :
         override fun isDisposed(): Boolean = disposable.isDisposed
 
         override fun onAvailable(network: Network) {
-            observer.onNext(NetworkState.CONNECTED)
-        }
+            availableNetworks.add(network)
+            if (availableNetworks.isNotEmpty()) {
+                observer.onNext(NetworkState.CONNECTED)
+            }
 
-        override fun onUnavailable() {
-            observer.onNext(NetworkState.DISCONNECTED)
         }
 
         override fun onLost(network: Network) {
-            observer.onNext(NetworkState.DISCONNECTED)
+            availableNetworks.remove(network)
+            if (availableNetworks.isEmpty()) {
+                observer.onNext(NetworkState.DISCONNECTED)
+            }
         }
     }
 }
