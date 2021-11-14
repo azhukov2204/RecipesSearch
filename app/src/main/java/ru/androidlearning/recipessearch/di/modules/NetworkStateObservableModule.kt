@@ -1,6 +1,5 @@
 package ru.androidlearning.recipessearch.di.modules
 
-import android.content.Context
 import dagger.Module
 import dagger.Provides
 import io.reactivex.rxjava3.observables.ConnectableObservable
@@ -14,5 +13,5 @@ class NetworkStateObservableModule {
     @Singleton
     @Provides
     @Named("NetworkStateObservable")
-    fun provideNetworkStateObservable(context: Context): ConnectableObservable<NetworkState> = NetworkStateObservable(context).publish()
+    fun provideNetworkStateObservable(networkStateObservable: NetworkStateObservable): ConnectableObservable<NetworkState> = networkStateObservable.publish()
 }
